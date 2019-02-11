@@ -1,0 +1,195 @@
+{
+  "entities": [],
+  "node": [
+    {
+      "init": true,
+      "end": false,
+      "node_id": "init",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "qry-acc-stmt-ivr",
+      "description": "",
+      "input_definition": {
+        "entity_id": "*",
+        "scripts": [
+          {
+            "script_input": [],
+            "script": "import groovy.json.JsonSlurper\n    return new JsonSlurper().parseText('{\"id\":\"start_node\", \"type\": \"node\"}')\n",
+            "scriptType": "groovy"
+          }
+        ],
+        "validation": {
+          "expression": "",
+          "allowed_values": [],
+          "goto": [
+            {
+              "id": "",
+              "type": ""
+            }
+          ]
+        }
+      },
+      "pipelines": [
+        {
+          "id": "",
+          "type": "",
+          "metadata": "",
+          "goto": {
+            "id": "account_type",
+            "type": "node"
+          }
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "start_node",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "expectedEntities": [],
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "start_node"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== '0123456789') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_2\", \"type\": \"node\"}') \n }  else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Please enter your registered 10 digit mobile number"
+        },
+        {
+          "id": "error",
+          "text": "Please provide valid mobile number"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "next_yes_2",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "expectedEntities": [],
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "next_yes_2"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== '1111') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_3\", \"type\": \"node\"}') \n }  else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Please enter the OTP sent to your registered mobile number"
+        },
+        {
+          "id": "error",
+          "text": "Please provide valid OTP"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_yes_3",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "expectedEntities": [],
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "next_yes_3"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Thank you. Your A/c Statement request for the a/c number ending 1234 has been accepted. Please note your reference number, ABC123"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,335 @@
+{
+  "entities": [],
+  "node": [
+    {
+      "init": true,
+      "end": false,
+      "node_id": "init",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "qry-change-address-ivr",
+      "description": "",
+      "input_definition": {
+        "entity_id": "*",
+        "scripts": [
+          {
+            "script_input": [],
+            "script": "import groovy.json.JsonSlurper\n    return new JsonSlurper().parseText('{\"id\":\"start_node\", \"type\": \"node\"}')\n",
+            "scriptType": "groovy"
+          }
+        ],
+        "validation": {
+          "expression": "",
+          "allowed_values": [],
+          "goto": [
+            {
+              "id": "",
+              "type": ""
+            }
+          ]
+        }
+      },
+      "pipelines": [
+        {
+          "id": "",
+          "type": "",
+          "metadata": "",
+          "goto": {
+            "id": "account_type",
+            "type": "node"
+          }
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "start_node",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "expectedEntities": [],
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm1"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_1\", \"type\": \"node\"}') \n } else if (any_freetext == 'no') { \n return new JsonSlurper().parseText(' {\"id\":\"next_no_1\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Do you have NB access?"
+        },
+        {
+          "id": "error",
+          "text": "Valid reply is Yes or No"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "next_yes_1",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm2"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_2\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would you like to update in your Bank account and Credit card too ?"
+        },
+        {
+          "id": "error",
+          "text": "Valid reply is Yes"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_yes_2",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm3"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "",
+                "valueId": ""
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would request you to kindly login to NB >>> Click on Update Address under update contact details   To Change your mailing address with the Bank, you need to submit self-attested scanned copy of your Address Proof.   Following documents are accepted as Address Proof for Resident Customer.  1) Passport  2) Driver License  3) Voter's Card  4) Aadhar Card  5) Central or State Government issued ID Card.  The same shall be updated in your bank account within 2 working days post which it will be updated in your Credit card account within 4 working days . "
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "next_no_1",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm4"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "confirmLocation"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_3\", \"type\": \"node\"}') \n } else if (any_freetext == 'no') { \n return new JsonSlurper().parseText(' {\"id\":\"next_no_2\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would you like to update in your Bank account and Credit card too ?"
+        },
+        {
+          "id": "error",
+          "text": "Valid reply is Yes or No"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_yes_3",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm5"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "",
+                "valueId": ""
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would request you to kindly submit duly filled Application form for e-age banking channels and change of address in any of your nearest HDFC Bank branches."
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_no_2",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirm6"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "",
+                "valueId": ""
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would request you to download Form - Change of Address, Mobile Number & Email IDs and kindly courier the same to our Chennai address  HDFC Bank Cards division, No 8 Lattice Bridge road, Thirunvanmiyur, Chennai 600041  OR You can also send it by post on the mentioned address."
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    }
+  ]
+}

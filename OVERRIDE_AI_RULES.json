@@ -1,0 +1,1259 @@
+[
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "who is your boss"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "whos your boss"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "who is your boss?"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "whos ur boss"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "SHOW_STATIC_MESSAGE",
+      "params": {
+        "message": "Of course, you are."
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "INTENT",
+            "operator": "EQUALS",
+            "value": "whats your name"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "who are you"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "what is your name"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "SHOW_STATIC_MESSAGE",
+      "params": {
+        "message": "I am your banking assistant."
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "profanity"
+          }
+        }]
+    },
+    "enabled": true,
+    "event": {
+      "action": "SHOW_STATIC_MESSAGE",
+      "params": {
+        "message": "I am currently not trained to handle such queries. Please bear with me"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "ENTITIES",
+            "operator": "EXISTS",
+            "value": "sys.currency-code"
+          }
+        },
+        {
+          "not": {
+            "any": [
+              {
+                "is": {
+                  "operand": "ENTITY",
+                  "operator": "CONTAINS",
+                  "value": "AUD",
+                  "params": {
+                    "entity": "sys.currency-code"
+                  }
+                }
+              },
+              {
+                "is": {
+                  "operand": "TEXT",
+                  "operator": "CONTAINS",
+                  "value": "AUD",
+                  "params": {
+                    "entity": "sys.currency-code"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "event": {
+      "action": "SHOW_STATIC_MESSAGE",
+      "params": {
+        "message": "I am not trained to handle non-AUD transactions yet, please provide the amount in AUD and try initiating the transaction again"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "Bill payment"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "do a bill payment"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "pay bills"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "i would like to do a bill payment"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "txn-moneymovement"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "INTENT",
+            "operator": "EQUALS",
+            "value": "qry-balanceenquiry"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "balance between"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-transaction-history"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "Display balance"
+          }
+        }]
+    },
+    "enabled": true,
+    "event": {
+      "action": "ADD_ENTITY",
+      "params": {
+        "entityName": "banking.product-name",
+        "entityValue": ""
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "pay bills"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "i would like to do a bill payment"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "ADD_ENTITY",
+      "params": {
+        "entityName": "banking.expenseType",
+        "entityValue": "bills"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "Bill payment"
+          }
+        }]
+    },
+    "enabled": true,
+    "event": {
+      "action": "ADD_ENTITY",
+      "params": {
+        "entityName": "banking.expenseType",
+        "entityValue": "bills"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "TRANSACTION_STATE",
+            "operator": "IS_NULL"
+          }
+        },
+        {
+          "any": [
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "cancel"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "abort"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "abort it"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "abort this"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "stop"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "terminate"
+              }
+            },
+            {
+              "is": {
+                "operand": "TEXT",
+                "operator": "EQUALS",
+                "value": "do not pay"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "SHOW_STATIC_MESSAGE",
+      "params": {
+        "message": "Nothing to cancel here."
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "all": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "cancel"
+          }
+        }]
+    },
+    "event": {
+      "action": "ADD_ENTITY",
+      "params": {
+        "entityName": "ccdEntity",
+        "entityValue": "sys.cancellation"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "cheque book"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "request cheque book"
+          }
+        }
+      ]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "txn-requestcheque"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "block credit card"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "block card credit"
+          }
+        }
+      ]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "txn-blockcreditcard"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "stop cheque"
+          }
+        }]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "txn-stopcheque"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "cheque status"
+          }
+        }]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "txn-chequestatus"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "get bill payments"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "get bill payment"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "list bill payments"
+          }
+        }
+      ]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-billpayments"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "get bill payment status"
+          }
+        },
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "CONTAINS",
+            "value": "bill payment status"
+          }
+        }
+      ]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-billpaymentstatus"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "visa offers"
+          }
+        }]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "visa-offers"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "Delhi"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"data\":{\"cityLocation\":\"Delhi\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "exchange rates"
+          }
+        }]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "exchange_rate"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "2000 at to sgd"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"data\":{\"currency_input\":\"2000 at to sgd\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "Lost Card"
+          }
+        }]
+    },
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "visa_stolen"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "Singapore"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"data\":{\"countryLocation\":\"Singapore\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": true,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "Send Location"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"data\":{\"countryLocation\":\"Send Location\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I would like to change address on my Bank account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "change address"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "modify address"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "change of residence"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-change-address-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "I would like to Change E-mail id in my bank account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "change email"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "modify email"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "update email"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-change-email-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I need the holdings statement for my Demat Account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "holdings statement"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "holding statement"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "my demat holding statement"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I need the holdings statement for my Demat Account ?"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-holding-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I want my Demat account number"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "my demat account number"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "what is my demat account number ?"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "get my demat account number"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-demat-acno-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "How would I be able to check the date of the transactions"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "check transaction date"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "I want to know the transaction date"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "what is the transaction date"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-check-txndate-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I would need Delivery Instruction Booklet (DIB) for my account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "need delivery instruction booklet"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "get the delivery instruction booklet for my account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I need instruction booklet"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-dib-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "How would I be able to track my total Holding value for the Demat account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "How would I be able to track my total Holding value for the Demat account ?"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "holding value"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "total Holding value of my Demat account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "How to track my Demat account holding value"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-holding-value-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I would like to know the charges levied for my Demat account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "check charge"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "what are the levied charges for my Demat account"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "charges for my Demat account"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-charge-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "Can I apply for an IPO through Netbanking"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "how to apply IPO"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "apply IPO through net banking"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "apply for IPO through net banking"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-ipo-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "account balance"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "EQUALS",
+            "value": "I would like to check my account balance"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-acc-bal-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "account statement"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "Can I get my account statement"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-acc-stmt-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "last 3 transaction"
+          }
+        },
+        {
+          "is": {
+            "operand": "ORIGINAL_TEXT",
+            "operator": "CONTAINS",
+            "value": "last 3 txn"
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "qry-last-3txn-ivr"
+      },
+      "toContinueExecution": true
+    }
+  },
+  {
+    "enabled": false,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "yes"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"intent\":\"qry-change-address-ivr\",\"data\":{\"confirmLocation\":\"yes\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "enabled": false,
+    "conditions": {
+      "any": [
+        {
+          "is": {
+            "operand": "TEXT",
+            "operator": "EQUALS",
+            "value": "no"
+          }
+        }]
+    },
+    "event": {
+      "action": "UPDATE_TO_POSTBACK",
+      "params": {
+        "payloadData": "{\"payloadData\":{\"intent\":\"qry-change-address-ivr\",\"data\":{\"confirmLocation\":\"no\"},\"timeStamp\":\"1487150732599\"}}"
+      },
+      "toContinueExecution": false
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "not": {
+            "is": {
+              "operand": "ORIGINAL_TEXT",
+              "operator": "EQUALS",
+              "value": "/clearehcache"
+            }
+          }
+        },
+        {
+          "not": {
+            "is": {
+              "operand": "INTENT",
+              "operator": "EQUALS",
+              "value": "init-welcomemessage"
+            }
+          }
+        },
+        {
+          "not": {
+            "is": {
+              "operand": "INTENT",
+              "operator": "EQUALS",
+              "value": "smalltalk"
+            }
+          }
+        },
+        {
+          "not": {
+            "is": {
+              "operand": "INTENT",
+              "operator": "EQUALS",
+              "values": [
+                "qry-change-email-ivr",
+                "qry-change-address-ivr",
+                "qry-demat-acno-ivr",
+                "qry-check-txndate-ivr",
+                "qry-dib-ivr",
+                "qry-holding-value-ivr",
+                "qry-charge-ivr",
+                "qry-ipo-ivr",
+                "qry-holding-ivr",
+                "qry-acc-bal-ivr",
+                "qry-acc-stmt-ivr",
+                "qry-last-3txn-ivr"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "enabled": true,
+    "event": {
+      "action": "CHANGE_INTENT",
+      "params": {
+        "intent": "faq"
+      },
+      "toContinueExecution": true
+    }
+  }
+]

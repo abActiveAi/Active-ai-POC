@@ -1,0 +1,189 @@
+{
+  "entities": [],
+  "node": [
+    {
+      "init": true,
+      "end": false,
+      "node_id": "init",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "qry-change-email-ivr",
+      "description": "",
+      "input_definition": {
+        "entity_id": "*",
+        "scripts": [
+          {
+            "script_input": [],
+            "script": "import groovy.json.JsonSlurper\n    return new JsonSlurper().parseText('{\"id\":\"start_node\", \"type\": \"node\"}')\n",
+            "scriptType": "groovy"
+          }
+        ],
+        "validation": {
+          "expression": "",
+          "allowed_values": [],
+          "goto": [
+            {
+              "id": "",
+              "type": ""
+            }
+          ]
+        }
+      },
+      "pipelines": [
+        {
+          "id": "",
+          "type": "",
+          "metadata": "",
+          "goto": {
+            "id": "account_type",
+            "type": "node"
+          }
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "init": false,
+      "end": false,
+      "node_id": "start_node",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "expectedEntities": [],
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirmLocation"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "entity_id",
+                "valueId": "any.freetext"
+              }
+            ],
+            "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_1\", \"type\": \"node\"}') \n } else if (any_freetext == 'no') { \n return new JsonSlurper().parseText(' {\"id\":\"next_no_1\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+            "scriptType": "groovy"
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Do you have NB access?"
+        },
+        {
+          "id": "error",
+          "text": "Valid reply is Yes or No"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_yes_1",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirmLocation"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "",
+                "valueId": ""
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would request you to kindly login to NB >>> Click on Update e-mail id  under update contact details .The same shall be updated within 1 working day in your bank account "
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    },
+    {
+      "init": false,
+      "end": true,
+      "node_id": "next_no_1",
+      "step_code": "",
+      "workflow_transaction_type": "",
+      "name": "",
+      "description": "",
+      "input_definition": {
+        "id": "",
+        "customer_preference_id": [
+          {
+            "any.freetext": "confirmLocation"
+          }
+        ],
+        "entity_id": "any.freetext",
+        "scripts": [
+          {
+            "script_input": [
+              {
+                "valueType": "",
+                "valueId": ""
+              }
+            ],
+            "script": "",
+            "scriptType": ""
+          }
+        ]
+      },
+      "pipelines": [],
+      "outputs": [
+        {
+          "id": "default",
+          "type": "text",
+          "text": "Would request you to kindly submit duly filled Application form for e-age banking channels and change of address in any of your nearest HDFC Bank branches.The same shall be updated within 7 working days in your bank account"
+        }
+      ],
+      "partialStateSave": false,
+      "fetchPendingWorkflow": false,
+      "enableJumpNode": true,
+      "trinityEntitiesOrder": "",
+      "keyboard_type": "NONE",
+      "config": {
+        "minPartialState": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+  {
+    "entities": [],
+    "node": [
+      {
+        "init": true,
+        "end": false,
+        "node_id": "init",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "qry-charge-ivr",
+        "description": "",
+        "input_definition": {
+          "entity_id": "*",
+          "scripts": [
+            {
+              "script_input": [],
+              "script": "import groovy.json.JsonSlurper\n    return new JsonSlurper().parseText('{\"id\":\"start_node\", \"type\": \"node\"}')\n",
+              "scriptType": "groovy"
+            }
+          ],
+          "validation": {
+            "expression": "",
+            "allowed_values": [],
+            "goto": [
+              {
+                "id": "",
+                "type": ""
+              }
+            ]
+          }
+        },
+        "pipelines": [
+          {
+            "id": "",
+            "type": "",
+            "metadata": "",
+            "goto": {
+              "id": "account_type",
+              "type": "node"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "init": false,
+        "end": false,
+        "node_id": "start_node",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "",
+        "expectedEntities": [],
+        "description": "",
+        "input_definition": {
+          "id": "",
+          "customer_preference_id": [
+            {
+              "any.freetext": "start_node"
+            }
+          ],
+          "entity_id": "any.freetext",
+          "scripts": [
+            {
+              "script_input": [
+                {
+                  "valueType": "entity_id",
+                  "valueId": "any.freetext"
+                }
+              ],
+              "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_1\", \"type\": \"node\"}') \n } else if (any_freetext == 'no') { \n return new JsonSlurper().parseText(' {\"id\":\"next_no_1\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+              "scriptType": "groovy"
+            }
+          ]
+        },
+        "pipelines": [],
+        "outputs": [
+          {
+            "id": "default",
+            "type": "text",
+            "text": "Do you have NB access?"
+          },
+          {
+            "id": "error",
+            "text": "Valid reply is Yes or No"
+          }
+        ],
+        "partialStateSave": false,
+        "fetchPendingWorkflow": false,
+        "enableJumpNode": true,
+        "trinityEntitiesOrder": "",
+        "keyboard_type": "NONE",
+        "config": {
+          "minPartialState": false
+        }
+      },
+      {
+        "init": false,
+        "end": true,
+        "node_id": "next_yes_1",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "",
+        "description": "",
+        "input_definition": {
+          "id": "",
+          "customer_preference_id": [
+            {
+              "any.freetext": "next_yes_1"
+            }
+          ],
+          "entity_id": "any.freetext",
+          "scripts": [
+            {
+              "script_input": [
+                {
+                  "valueType": "entity_id",
+                  "valueId": "any.freetext"
+                }
+              ],
+              "script": "",
+              "scriptType": ""
+            }
+          ]
+        },
+        "pipelines": [],
+        "outputs": [
+          {
+            "id": "default",
+            "type": "text",
+            "text": "All you need to do is Login to NB , select Demat tab, Select request and download Transaction cum billing statement for the respective period."
+          }
+        ],
+        "partialStateSave": false,
+        "fetchPendingWorkflow": false,
+        "enableJumpNode": true,
+        "trinityEntitiesOrder": "",
+        "keyboard_type": "NONE",
+        "config": {
+          "minPartialState": false
+        }
+      },
+      {
+        "init": false,
+        "end": false,
+        "node_id": "next_no_1",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "",
+        "description": "",
+        "input_definition": {
+          "id": "",
+          "customer_preference_id": [
+            {
+              "any.freetext": "next_no_1"
+            }
+          ],
+          "entity_id": "any.freetext",
+          "scripts": [
+            {
+              "script_input": [
+                {
+                  "valueType": "entity_id",
+                  "valueId": "any.freetext"
+                }
+              ],
+              "script": "import groovy.json.JsonSlurper \n if (any_freetext== 'yes') { \n     return new JsonSlurper().parseText(' {\"id\":\"next_yes_2\", \"type\": \"node\"}') \n } else if (any_freetext == 'no') { \n return new JsonSlurper().parseText(' {\"id\":\"next_no_2\", \"type\": \"node\"}') \n } else { \n return new JsonSlurper().parseText(' {\"id\":\"error\", \"type\": \"error\"}') \n }",
+              "scriptType": "groovy"
+            }
+          ]
+        },
+        "pipelines": [],
+        "outputs": [
+          {
+            "id": "default",
+            "type": "text",
+            "text": "Do you want to register yourself for Demat access on NB ?"
+          },
+          {
+            "id": "error",
+            "text": "Valid reply is Yes or No"
+          }
+        ],
+        "partialStateSave": false,
+        "fetchPendingWorkflow": false,
+        "enableJumpNode": true,
+        "trinityEntitiesOrder": "",
+        "keyboard_type": "NONE",
+        "config": {
+          "minPartialState": false
+        }
+      },
+      {
+        "init": false,
+        "end": true,
+        "node_id": "next_yes_2",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "",
+        "description": "",
+        "input_definition": {
+          "id": "",
+          "customer_preference_id": [
+            {
+              "any.freetext": "next_yes_2"
+            }
+          ],
+          "entity_id": "any.freetext",
+          "scripts": [
+            {
+              "script_input": [
+                {
+                  "valueType": "",
+                  "valueId": ""
+                }
+              ],
+              "script": "",
+              "scriptType": ""
+            }
+          ]
+        },
+        "pipelines": [],
+        "outputs": [
+          {
+            "id": "default",
+            "type": "text",
+            "text": "Would request you to download DP on NET registration form which is available on our website in the form center Demat tab and submit the same in nearest Demat servicing branch . You shall be registered for the Demat services on NB within 7 working days. Post which All you need to do is Login to NB ,select Demat tab, Select request and download Transaction cum billing statement for the respective period."
+          }
+        ],
+        "partialStateSave": false,
+        "fetchPendingWorkflow": false,
+        "enableJumpNode": true,
+        "trinityEntitiesOrder": "",
+        "keyboard_type": "NONE",
+        "config": {
+          "minPartialState": false
+        }
+      },
+      {
+        "init": false,
+        "end": true,
+        "node_id": "next_no_2",
+        "step_code": "",
+        "workflow_transaction_type": "",
+        "name": "",
+        "description": "",
+        "input_definition": {
+          "id": "",
+          "customer_preference_id": [
+            {
+              "any.freetext": "next_no_2"
+            }
+          ],
+          "entity_id": "any.freetext",
+          "scripts": [
+            {
+              "script_input": [
+                {
+                  "valueType": "",
+                  "valueId": ""
+                }
+              ],
+              "script": "",
+              "scriptType": ""
+            }
+          ]
+        },
+        "pipelines": [],
+        "outputs": [
+          {
+            "id": "default",
+            "type": "text",
+            "text": "Would request you to kindly contact your Relationship Manager and he would be glad to assist you"
+          }
+        ],
+        "partialStateSave": false,
+        "fetchPendingWorkflow": false,
+        "enableJumpNode": true,
+        "trinityEntitiesOrder": "",
+        "keyboard_type": "NONE",
+        "config": {
+          "minPartialState": false
+        }
+      }
+    ]
+  }
