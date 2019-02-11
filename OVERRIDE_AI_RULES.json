@@ -6,7 +6,7 @@
           "is": {
             "operand": "TEXT",
             "operator": "CONTAINS",
-            "value": "who is your boss"
+            "value": "who is your boss."
           }
         },
         {
